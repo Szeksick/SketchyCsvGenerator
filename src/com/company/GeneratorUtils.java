@@ -4,35 +4,24 @@ import com.sun.javafx.collections.MappingChange;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GeneratorUtils {
+
     public static String getRandomFutureDate() {
         Date startDate = new Date();
-        String s = String.valueOf(startDate.getDay()) + "/" + String.valueOf(startDate.getMonth()) + "/" + String.valueOf(startDate.getYear() + 1);
-        Date endDate = null;
-        try {
-            endDate = new SimpleDateFormat("dd/MM/yyyy").parse(s);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        long random = getRandomNumber(startDate.getTime(), endDate.getTime());
-        return new Date(random).toString();
+        RandomDate rd = new RandomDate(LocalDate.of(startDate.getYear()-1, startDate.getMonth(), startDate.getDay()), LocalDate.of(startDate.getYear()+1, startDate.getMonth(), startDate.getDay()));
+        return rd.nextDate().toString();
     }
 
     public static String getRandomPastDate() {
         Date startDate = new Date();
-        String s = String.valueOf(startDate.getDay()) + "/" + String.valueOf(startDate.getMonth()) + "/" + String.valueOf(startDate.getYear() - 1);
-        Date endDate = null;
-        try {
-            endDate = new SimpleDateFormat("dd/MM/yyyy").parse(s);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        long random = getRandomNumber(startDate.getTime(), endDate.getTime());
-        return new Date(random).toString();
+        RandomDate rd = new RandomDate(LocalDate.of(startDate.getYear()-1, startDate.getMonth(), startDate.getDay()), LocalDate.of(startDate.getYear(), startDate.getMonth(), startDate.getDay()));
+        return rd.nextDate().toString();
     }
 
     public static String getRandomNumberString(long leftLimit, long rightLimit) {
